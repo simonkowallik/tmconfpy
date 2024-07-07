@@ -1,0 +1,40 @@
+name: Release PyPI Package
+  
+on:
+  workflow_dispatch:
+  release:
+    types: [released]
+
+jobs:
+  release-python-package:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: pypi
+      url: https://pypi.org/p/tmconfpy
+    permissions:
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - name: Configure poetry
+        run: poetry config virtualenvs.in-project true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          cache: poetry
+
+      - name: Install dependencies
+        run: poetry install --with dev
+
+      - name: Build package
+        run: poetry build
+
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
