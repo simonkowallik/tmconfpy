@@ -1,0 +1,3 @@
+ltm profile imap imap {
+    activation-mode require
+}

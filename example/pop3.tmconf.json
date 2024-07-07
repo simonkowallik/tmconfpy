@@ -1,0 +1,5 @@
+{
+    "ltm profile pop3 pop3": {
+        "activation-mode": "require"
+    }
+}
