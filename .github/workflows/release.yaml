@@ -36,11 +36,6 @@ jobs:
       - name: Build package
         run: poetry build
 
-      #- name: Publish package
-      #  env:
-      #    POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
-      #  run: poetry publish
-
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
 
@@ -51,8 +46,8 @@ jobs:
         containers:
           - file: files/Dockerfile
             tags: |
-              simonkowallik/irulescan:latest
-              ghcr.io/simonkowallik/irulescan:latest
+              simonkowallik/tmconfpy:latest
+              ghcr.io/simonkowallik/tmconfpy:latest
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
