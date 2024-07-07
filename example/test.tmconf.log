@@ -1,0 +1,4 @@
+2024-06-30T18:39:16Z - WARNING - tmconfpy.parser - UNRECOGNIZED LINE for object 'sys software update': '     auto-check enabled'
+2024-06-30T18:39:16Z - WARNING - tmconfpy.parser - UNRECOGNIZED LINE for object 'sys software update': '     auto-phonehome enabled'
+2024-06-30T18:39:16Z - WARNING - tmconfpy.parser - UNRECOGNIZED LINE for object 'fatal-grace-time': '	time 500'
+2024-06-30T18:39:16Z - WARNING - tmconfpy.parser - UNRECOGNIZED LINE for object 'fatal-grace-time': '	enabled yes'
