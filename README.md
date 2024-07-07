@@ -1,8 +1,7 @@
 # tmconfPy
 
 [![CI Pipeline](https://github.com/simonkowallik/tmconfpy/actions/workflows/ci-pipeline.yaml/badge.svg)](https://github.com/simonkowallik/tmconfpy/actions/workflows/ci-pipeline.yaml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/TODO/maintainability)](https://codeclimate.com/github/simonkowallik/tmconfpy/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/TODO/test_coverage)](https://codeclimate.com/github/simonkowallik/tmconfpy/test_coverage)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/3f404be294dceae16361/test_coverage)](https://codeclimate.com/github/simonkowallik/tmconfpy/test_coverage)
 
 **tmconfpy** provides a simple parser (`tmconfpy` command) to serialize a tmconf file (eg. `/config/bigip.conf`) to JSON (or python `dict`). The produced JSON is printed to `STDOUT` or a specified output (`--output`) file. It is also usable as a python module for easy consumption in your own projects.
 
