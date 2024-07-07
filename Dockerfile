@@ -1,5 +1,5 @@
 # build-python-poetry
-FROM cgr.dev/chainguard/python:latest-dev as build-python-poetry
+FROM cgr.dev/chainguard/python:latest-dev AS build-python-poetry
 
 WORKDIR /build
 
@@ -16,7 +16,7 @@ RUN /home/nonroot/.local/bin/poetry export --format=requirements.txt --output=/b
 RUN /home/nonroot/.local/bin/poetry build --format=sdist --no-interaction
 
 # build-apiserver
-FROM cgr.dev/chainguard/python:latest-dev as build-apiserver
+FROM cgr.dev/chainguard/python:latest-dev AS build-apiserver
 
 WORKDIR /build
 
