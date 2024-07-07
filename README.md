@@ -1,13 +1,29 @@
-# tmconfPy
+# tmconfpy
 
-[![CI Pipeline](https://github.com/simonkowallik/tmconfpy/actions/workflows/ci-pipeline.yaml/badge.svg)](https://github.com/simonkowallik/tmconfpy/actions/workflows/ci-pipeline.yaml)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/3f404be294dceae16361/test_coverage)](https://codeclimate.com/github/simonkowallik/tmconfpy/test_coverage)
+<p align="center">
+<a href="https://github.com/simonkowallik/tmconfpy/actions/workflows/ci-pipeline.yaml">
+    <img src="https://github.com/simonkowallik/tmconfpy/actions/workflows/ci-pipeline.yaml/badge.svg" alt="ci-pipeline">
+</a>
+<a href="https://codeclimate.com/github/simonkowallik/tmconfpy/test_coverage">
+    <img src="https://api.codeclimate.com/v1/badges/3f404be294dceae16361/test_coverage" alt="test coverage">
+</a>
+<a href="https://hub.docker.com/r/simonkowallik/tmconfpy">
+    <img src="https://img.shields.io/docker/image-size/simonkowallik/tmconfpy" alt="container image size">
+</a>
+<a href="https://github.com/simonkowallik/tmconfpy/releases">
+    <img src="https://img.shields.io/github/v/release/simonkowallik/tmconfpy" alt="releases">
+</a>
+</p>
+
+---
 
 **tmconfpy** provides a simple parser (`tmconfpy` command) to serialize a tmconf file (eg. `/config/bigip.conf`) to JSON (or python `dict`). The produced JSON is printed to `STDOUT` or a specified output (`--output`) file. It is also usable as a python module for easy consumption in your own projects.
 
 This project aims to be a minimalistic dependency free tool. It is based on [tmconfjs](https://github.com/simonkowallik/tmconfjs), it's parsing implementation leans heavily on the community project [F5 BIG-IP Automation Config Converter (BIG-IP ACC)](https://github.com/f5devcentral/f5-automation-config-converter/).
 
 The TMOS configuration parser [f5-corkscrew](https://github.com/f5devcentral/f5-corkscrew) is a more sophisticated alternative with advanced functionality and active development.
+
+Also checkout the jupyter notebook: [example/notebook.ipynb](./example/notebook.ipynb).
 
 ## Documentation by example
 
