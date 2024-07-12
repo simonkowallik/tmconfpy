@@ -3,8 +3,8 @@
 
 import json
 import logging
-import sys
 import re
+import sys
 from collections import namedtuple
 from typing import Dict, Optional
 
@@ -17,9 +17,9 @@ logging.basicConfig(
     stream=sys.stderr,
 )
 log = logging.getLogger(__name__)
-#handler = logging.StreamHandler(sys.stderr)
-#handler.setLevel(logging.INFO)
-#log.addHandler(handler)
+# handler = logging.StreamHandler(sys.stderr)
+# handler.setLevel(logging.INFO)
+# log.addHandler(handler)
 
 # namedtuple for tabular data
 tabularTmconf = namedtuple("tabularTmconf", ["path", "name", "object"])
@@ -126,6 +126,7 @@ class Parser:
                 c = 0
                 rule_flag = self._is_irule(current_line)
 
+                quoted = False
                 bracket_count = 1
                 while bracket_count != 0:
                     c += 1
@@ -136,7 +137,7 @@ class Parser:
                     if not (
                         (
                             line.strip().startswith("#")
-                            or line.strip().startswith("set")
+                            # or line.strip().startswith("set")
                             or line.strip().startswith("STREAM")
                         )
                         and rule_flag
@@ -145,12 +146,13 @@ class Parser:
                             line.strip().replace('\\"', "").replace(r'".+"', "")
                         )
                         for char in updated_line:
-                            if char == "{" and previous_char != "\\":
+                            if char == '"' and previous_char != "\\":
+                                quoted = not quoted
+                            if not quoted and char == "{" and previous_char != "\\":
                                 subcount += 1
-                            if char == "}" and previous_char != "\\":
+                            if not quoted and char == "}" and previous_char != "\\":
                                 subcount -= 1
                             previous_char = char
-
                         if self._is_irule(line):
                             c -= 1
                             bracket_count = 0
