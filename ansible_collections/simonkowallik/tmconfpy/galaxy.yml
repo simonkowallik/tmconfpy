@@ -1,0 +1,25 @@
+---
+namespace: simonkowallik
+name: tmconfpy
+version: 1.0.1
+readme: README.md
+authors:
+  - Simon Kowallik <github@simonkowallik.com>
+
+description: "Ansible module to serialize F5 BIG-IP configuration files (bigip.conf and similar) to a python data structures such as dict."
+license_file: LICENSE
+tags:
+  - f5
+  - networking
+  - bigip
+
+dependencies:
+  "f5networks.f5_bigip": ">=3.0.0"
+
+repository: https://github.com/simonkowallik/tmconfpy
+documentation: https://github.com/simonkowallik/tmconfpy
+homepage: https://github.com/simonkowallik/tmconfpy
+issues: https://github.com/simonkowallik/tmconfpy/issues
+
+build_ignore:
+  - tests
