@@ -43,7 +43,15 @@ jobs:
           images: |
               ${{ github.repository }}
               ghcr.io/${{ github.repository }}
-          
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=schedule,pattern={{date 'YYYYMMDD-HHmmss' tz='UTC'}}
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}
+            type=sha
       - name: Build and push
         id: push
         uses: docker/build-push-action@v6
@@ -60,7 +68,7 @@ jobs:
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v1
         with:
-          subject-name: ${{ github.repository }}
+          subject-name: ghcr.io/${{ github.repository }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
           
