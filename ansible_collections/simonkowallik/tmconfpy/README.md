@@ -4,7 +4,7 @@
 
 tmconfpy as well as the tmconfpy ansible collection aim to make BIG-IP configurations more accessible by serializing the tmconf format to python data structures.
 
-For more details about the relevant configuration files, data formats, tmconfpy and its ansible collection please have a look in [CONFIG-FORMATS.md](https://github.com/simonkowallik/tmconfpy/CONFIG-FORMATS.md).
+For more details about the relevant configuration files, data formats, tmconfpy and its ansible collection please have a look in [CONFIG-FORMATS.md](https://github.com/simonkowallik/tmconfpy/blob/main/CONFIG-FORMATS.md).
 
 ## Installation
 
@@ -31,4 +31,4 @@ In your `requirements.yml` file you can use both ways as well:
 
 ## Example Playbook
 
-Please have a look at this [ansible_collections/simonkowallik/tmconfpy/playbook/example-playbook.yml](example-playbook.yml).
+Please have a look at this [https://github.com/simonkowallik/tmconfpy/blob/main/ansible_collections/simonkowallik/tmconfpy/playbook/example-playbook.yml](example-playbook.yml).
