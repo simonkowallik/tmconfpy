@@ -53,6 +53,12 @@ test:
 
 tests: test
 
+ansible:
+	cp -f tmconfpy/parser.py ansible_collections/simonkowallik/tmconfpy/plugins/module_utils/parser.py
+	cp -f LICENSE ansible_collections/simonkowallik/tmconfpy/LICENSE
+	mkdir -p ./build
+	ansible-galaxy collection build ansible_collections/simonkowallik/tmconfpy --output-path build/
+
 container:
 	docker build -t tmconfpy .
 

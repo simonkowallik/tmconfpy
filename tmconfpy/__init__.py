@@ -9,7 +9,7 @@ __all__ = [
 ]
 __author__ = """Simon Kowallik"""
 __email__ = "sk-github@simonkowallik.com"
-__version__ = "1.0.0"  # pyproject.toml
+__version__ = "1.0.1"  # pyproject.toml
 __projectname__ = "tmconfpy"
 # pylint: disable=line-too-long
 __description__ = "A Python library to serialize F5 BIG-IP configuration files to a python dict or JSON."

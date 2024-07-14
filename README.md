@@ -25,6 +25,12 @@ The TMOS configuration parser [f5-corkscrew](https://github.com/f5devcentral/f5-
 
 Also checkout the jupyter notebook: [example/notebook.ipynb](./example/notebook.ipynb).
 
+For more details about the relevant configuration files, data formats, tmconfpy and its ansible collection please have a look in [CONFIG-FORMATS.md](https://github.com/simonkowallik/tmconfpy/CONFIG-FORMATS.md).
+
+## Using tmconfpy with ansible
+
+tmconfpy is available as an ansible module, please see [ansible_collections/simonkowallik/tmconfpy/README.md](./ansible_collections/simonkowallik/tmconfpy/README.md).
+
 ## Documentation by example
 
 ### Installation
