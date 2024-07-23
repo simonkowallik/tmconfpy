@@ -19,24 +19,49 @@
     ansible_network_os: f5networks.f5_bigip.bigip
     ansible_httpapi_use_ssl: yes
     ansible_httpapi_validate_certs: "{{ provider.validate_certs }}"
-
+    # the above is typically defined in a group_vars and host_vars and ansible-vault
+    # path to the configuration file on the BIG-IP
+    bigip_configfile: /config/bigip_user.conf
 
   tasks:
-    - name: "Fetch bigip_user.conf tabular"
+    - name: "Requirements Note"
+      ansible.builtin.debug:
+        msg: |
+          # This playbook requires the following:
+          # requirements.yml
+          collections:
+          # https://galaxy.ansible.com/ui/repo/published/f5networks/f5_bigip/
+          - name: f5networks.f5_bigip
+            type: galaxy
+            version: ">=3.0.0"
+          # https://galaxy.ansible.com/ui/repo/published/simonkowallik/tmconfpy/
+          - name: simonkowallik/tmconfpy
+            type: galaxy
+            version: ">=1.0.0"
+
+    - name: "Fetch {{ bigip_configfile }} in tabular format"
       simonkowallik.tmconfpy.tmconf_get:
-        configfile: /config/bigip_user.conf
+        configfile: "{{ bigip_configfile }}"
         format: tabular
       register: tabular_config
 
-    - name: "Print bigip_user.conf tabular"
+    # tabular format has 3 columns, object_path, object_name and the object itself.
+    # each entry in the tmconf file is a row.
+    - name: "Print {{ bigip_configfile }} in tabular format"
       ansible.builtin.debug:
         var: tabular_config.tmconf_tabular
 
-    - name: "Fetch bigip_user.conf"
+    # object format uses keys that represent the object_path and object_name. The value is the object itself.
+    - name: "Fetch {{ bigip_configfile }} in object format (default)"
       simonkowallik.tmconfpy.tmconf_get:
-        configfile: /config/bigip_user.conf
+        configfile: "{{ bigip_configfile }}"
       register: config
 
-    - name: "Print bigip_user.conf"
+    - name: "Print {{ bigip_configfile }} in object format (default)"
       ansible.builtin.debug:
         var: config.tmconf
+
+    - name: "Save tmconf to JSON file"
+      ansible.builtin.copy:
+        content: "{{ config.tmconf | to_nice_json }}"
+        dest: "./{{ bigip_configfile }}"

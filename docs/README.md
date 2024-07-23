@@ -32,7 +32,7 @@ For more details about the relevant configuration files, data formats, tmconfpy 
 
 ## Using tmconfpy with ansible
 
-tmconfpy is available as an ansible module, please see [ansible_collections/simonkowallik/tmconfpy/README.md](./ansible_collections/simonkowallik/tmconfpy/README.md).
+tmconfpy is available as an ansible module, please see [ansible_collections/simonkowallik/tmconfpy/README.md](./ansible_collections/simonkowallik/tmconfpy/README.md) or the [documentation](https://simonkowallik.github.io/tmconfpy/).
 
 ## Documentation by example
 
