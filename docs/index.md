@@ -1,3 +1,9 @@
+---
+layout: default
+title: Home
+nav_enabled: true
+nav_order: 1
+---
 # tmconfpy
 
 <p align="center" style="text-decoration: none;">
@@ -26,13 +32,13 @@ This project aims to be a minimalistic dependency free tool. It is based on [tmc
 
 The TMOS configuration parser [f5-corkscrew](https://github.com/f5devcentral/f5-corkscrew) is a more sophisticated alternative with advanced functionality and active development.
 
-Also checkout the jupyter notebook: [example/notebook.ipynb](./example/notebook.ipynb).
+Also checkout the jupyter notebook: [example/notebook.ipynb](https://github.com/simonkowallik/tmconfpy/blob/main/example/notebook.ipynb).
 
-For more details about the relevant configuration files, data formats, tmconfpy and its ansible collection please have a look at the [documentation](https://simonkowallik.github.io/tmconfpy/).
+More details about the relevant [BIG-IP configuration files and data formats](./data-formats.html).
 
 ## Using tmconfpy with ansible
 
-tmconfpy is available as an ansible module, please see [ansible_collections/simonkowallik/tmconfpy/README.md](./ansible_collections/simonkowallik/tmconfpy/README.md) or the [documentation](https://simonkowallik.github.io/tmconfpy/).
+tmconfpy is available as an ansible module, please see [docs: Ansible](./ansible.html).
 
 ## Documentation by example
 
@@ -280,7 +286,7 @@ cat example/imap.tmconf | docker run --rm --interactive --entrypoint tmconfpy si
 
 ## Disclaimer, Support, License
 
-Please read and understand the [LICENSE](./LICENSE) first.
+Please read and understand the [LICENSE](https://github.com/simonkowallik/tmconfpy/blob/main/LICENSE) first.
 
 ```text
 There is no support on this project.

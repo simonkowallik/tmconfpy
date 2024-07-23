@@ -1,3 +1,9 @@
+---
+layout: default
+title: Data formats
+nav_enabled: true
+nav_order: 2
+---
 # tmconfpy and tmconfpy ansible collection
 
 ## Purpose

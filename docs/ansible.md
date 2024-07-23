@@ -1,3 +1,9 @@
+---
+layout: default
+title: Ansible
+nav_enabled: true
+nav_order: 3
+---
 # tmconfpy - Ansible collection
 
 ## Purpose

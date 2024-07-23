@@ -1,3 +1,11 @@
-theme: jekyll-theme-minimal
 title: tmconfpy
 description: serialize F5 config (bigip.conf) to JSON or python dict
+remote_theme: just-the-docs/just-the-docs@v0.8.2
+
+url: https://simonkowallik.github.io/tmconfpy/
+
+aux_links:
+  Repository: https://github.com/simonkowallik/tmconfpy/
+
+nav_enabled: true
+heading_anchors: true
