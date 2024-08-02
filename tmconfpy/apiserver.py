@@ -27,25 +27,40 @@ EXAMPLE_RESPONSES = {
                 "application/json": {
                     "examples": {
                         "object": {
-                            "summary": "object response",
+                            "summary": "object response format",
                             "value": {
-                                "ltm profile imap imap": {"activation-mode": "require"},
                                 "ltm profile pop3 pop3": {"activation-mode": "require"},
+                                "ltm profile imap imap": {"activation-mode": "require"},
                             },
                         },
                         "tabular": {
-                            "summary": "tabular response",
+                            "summary": "tabular response format",
                             "value": [
-                                [
-                                    "ltm profile imap",
-                                    "imap",
-                                    {"activation-mode": "require"},
-                                ],
                                 [
                                     "ltm profile pop3",
                                     "pop3",
                                     {"activation-mode": "require"},
                                 ],
+                                [
+                                    "ltm profile imap",
+                                    "imap",
+                                    {"activation-mode": "require"},
+                                ],
+                            ],
+                        },
+                        "tabular_kv": {
+                            "summary": "tabular_kv response format",
+                            "value": [
+                                {
+                                    "path": "ltm profile pop3",
+                                    "name": "pop3",
+                                    "object": {"activation-mode": "require"},
+                                },
+                                {
+                                    "path": "ltm profile imap",
+                                    "name": "imap",
+                                    "object": {"activation-mode": "require"},
+                                },
                             ],
                         },
                     }
@@ -56,12 +71,12 @@ EXAMPLE_RESPONSES = {
                             "summary": "jsonl response",
                             "value": [
                                 {
-                                    "ltm profile imap imap": {
+                                    "ltm profile pop3 pop3": {
                                         "activation-mode": "require"
                                     }
                                 },
                                 {
-                                    "ltm profile pop3 pop3": {
+                                    "ltm profile imap imap": {
                                         "activation-mode": "require"
                                     }
                                 },
@@ -122,6 +137,7 @@ class ParserResponseFormat(str, enum.Enum):
 
     object = "object"
     tabular = "tabular"
+    tabular_kv = "tabular_kv"
     jsonl = "jsonl"
 
 
@@ -141,6 +157,7 @@ class FileParserResult(BaseModel):
 )
 async def fileparser(
     filename: list[UploadFile],
+    sort: bool = False,
 ):
     """
     Submit one or multiple files in multipart/form-data. Returns a JSON object with results for each file.
@@ -160,7 +177,7 @@ async def fileparser(
         filename, reverse=False, key=lambda upload_file: upload_file.filename
     ):
         data = await _file.read()
-        parsed = Parser(data.decode())
+        parsed = Parser(data.decode(), sort=sort)
         results.append(FileParserResult(filename=_file.filename, output=parsed.dict))
 
     return results
@@ -177,10 +194,11 @@ async def parser(
     tmconf: str = Body(
         media_type="text/plain",
         examples=[
-            "ltm profile imap imap {\n    activation-mode require\n}\nltm profile pop3 pop3 {\n    activation-mode require\n}"
+            "ltm profile pop3 pop3 {\n    activation-mode require\n}\nltm profile imap imap {\n    activation-mode require\n}"
         ],
     ),
     response_format: ParserResponseFormat = ParserResponseFormat.object,
+    sort: bool = False,
 ) -> Union[Response, JSONResponse]:
     """
     Accepts a POST request with a tmconf file content as the body. Returns a JSON object with the parsed tmconf.
@@ -192,10 +210,13 @@ async def parser(
     {"ltm profile imap imap":{"activation-mode":"require"}}
     ```
     """
-    parsed = Parser(tmconf)
+    parsed = Parser(tmconf, sort=sort)
     # tabular
     if response_format == ParserResponseFormat.tabular:
         return JSONResponse(content=parsed.tabular)
+    # tabular_kv
+    if response_format == ParserResponseFormat.tabular_kv:
+        return JSONResponse(content=parsed.tabular_kv)
     # jsonl - jsonlines
     elif response_format == ParserResponseFormat.jsonl:
         return Response(

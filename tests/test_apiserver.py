@@ -69,6 +69,25 @@ class Test_Parser:
         ]
 
     @staticmethod
+    def test_tabular_kv():
+        """Test parser endpoint with tabular_kv response format"""
+        client = TestClient(app)
+        response = client.post(
+            "/parser/",
+            content=open("./example/imap.tmconf", "rb").read(),
+            headers={"Content-Type": "text/plain"},
+            params={"response_format": "tabular_kv"},
+        )
+        assert response.status_code == 200
+        assert response.json() == [
+            {
+                "path": "ltm profile imap",
+                "name": "imap",
+                "object": {"activation-mode": "require"},
+            }
+        ]
+
+    @staticmethod
     def test_jsonl():
         """Test parser endpoint with jsonl response format"""
         client = TestClient(app)

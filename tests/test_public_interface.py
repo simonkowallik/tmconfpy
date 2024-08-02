@@ -36,9 +36,32 @@ TEST_DATA = {
             ),
         ],
     ),
+    "tabular_kv": (
+        """ltm profile imap imap {\n    activation-mode require\n}\nltm profile pop3 pop3 {\n    activation-mode require\n}""",
+        [
+            {
+                "name": "imap",
+                "object": {
+                    "activation-mode": "require",
+                },
+                "path": "ltm profile imap",
+            },
+            {
+                "name": "pop3",
+                "object": {
+                    "activation-mode": "require",
+                },
+                "path": "ltm profile pop3",
+            },
+        ],
+    ),
     "tabular_json": (
         """ltm profile imap imap {\n    activation-mode require\n}\nltm profile pop3 pop3 {\n    activation-mode require\n}""",
         '[["ltm profile imap", "imap", {"activation-mode": "require"}], ["ltm profile pop3", "pop3", {"activation-mode": "require"}]]',
+    ),
+    "tabular_json_kv": (
+        """ltm profile imap imap {\n    activation-mode require\n}\nltm profile pop3 pop3 {\n    activation-mode require\n}""",
+        '[{"path": "ltm profile imap", "name": "imap", "object": {"activation-mode": "require"}}, {"path": "ltm profile pop3", "name": "pop3", "object": {"activation-mode": "require"}}]',
     ),
     "jsonl": (
         """ltm profile imap imap {\n    activation-mode require\n}\nltm profile pop3 pop3 {\n    activation-mode require\n}""",
@@ -56,6 +79,12 @@ class TestPublicModuleInterface:
         parser = Parser(testdata)
         assert json.loads(parser.json) == json.loads(expected)
 
+    @pytest.mark.parametrize("testdata, expected", [TEST_DATA["json"]])
+    def test_text(self, testdata, expected):
+        """Test text property."""
+        parser = Parser(testdata)
+        assert parser.text == testdata
+
     @pytest.mark.parametrize("testdata, expected", [TEST_DATA["dict"]])
     def test_dict(self, testdata, expected):
         """Test dict property."""
@@ -68,11 +97,23 @@ class TestPublicModuleInterface:
         parser = Parser(testdata)
         assert parser.tabular == expected
 
+    @pytest.mark.parametrize("testdata, expected", [TEST_DATA["tabular_kv"]])
+    def test_tabular_kv(self, testdata, expected):
+        """Test tabular property."""
+        parser = Parser(testdata)
+        assert parser.tabular_kv == expected
+
     @pytest.mark.parametrize("testdata, expected", [TEST_DATA["tabular_json"]])
     def test_tabular_json(self, testdata, expected):
         """Test tabular_json property."""
         parser = Parser(testdata)
         assert json.loads(parser.tabular_json) == json.loads(expected)
+
+    @pytest.mark.parametrize("testdata, expected", [TEST_DATA["tabular_json_kv"]])
+    def test_tabular_json_kv(self, testdata, expected):
+        """Test tabular_json property."""
+        parser = Parser(testdata)
+        assert json.loads(parser.tabular_json_kv) == json.loads(expected)
 
     @pytest.mark.parametrize("testdata, expected", [TEST_DATA["jsonl"]])
     def test_jsonl(self, testdata, expected):

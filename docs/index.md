@@ -164,6 +164,50 @@ tmconfpy supports multiple output formats of the parsed tmconf data, which can b
 ]
 ```
 
+```shell
+(cat example/imap.tmconf; echo; cat example/pop3.tmconf) | \
+  tmconfpy --format tabular_kv
+```
+
+```json
+[
+  {"path":"ltm profile imap","name":"imap","object":{"activation-mode":"require"}},
+  {"path":"ltm profile pop3","name":"pop3","object":{"activation-mode":"require"}}
+]
+```
+
+Sorting the output is also supported since version 1.1.0. This is helpful when comparing data. tmconfpy uses python `sorted()` and will sort all data within the tmconf (all dicts, and lists).
+
+```shell
+cat <<EOF | tmconfpy --sort | jq 
+ltm profile profile-type zProfile { }
+ltm profile profile-type MyProfile {
+    b {
+        Z { 3 2 A 1 0 }
+        a 1
+        A 2
+    }
+    aaa 0
+    AA { a c b }
+}
+EOF
+```
+
+```json
+{
+  "ltm profile profile-type MyProfile": {
+    "AA": [ "a", "b", "c" ],
+    "aaa": "0",
+    "b": {
+      "A": "2",
+      "Z": [ "0", "1", "2", "3", "A" ],
+      "a": "1"
+    }
+  },
+  "ltm profile profile-type zProfile": {}
+}
+```
+
 ### Use as python module
 
 ```python
@@ -184,6 +228,13 @@ tmconfpy supports multiple output formats of the parsed tmconf data, which can b
 '{"ltm profile pop3 pop3": {"activation-mode": "require"}, "ltm profile imap imap": {"activation-mode": "require"}}'
 >>> parsed.tabular
 [tabularTmconf(path='ltm profile pop3', name='pop3', object={'activation-mode': 'require'}), tabularTmconf(path='ltm profile imap', name='imap', object={'activation-mode': 'require'})]
+>>> parsed.tabular_kv
+[{'path': 'ltm profile pop3',
+  'name': 'pop3',
+  'object': {'activation-mode': 'require'}},
+ {'path': 'ltm profile imap',
+  'name': 'imap',
+  'object': {'activation-mode': 'require'}}]
 >>> parsed.tabular_json
 '[["ltm profile pop3", "pop3", {"activation-mode": "require"}], ["ltm profile imap", "imap", {"activation-mode": "require"}]]'
 >>> parsed.jsonl
@@ -264,6 +315,38 @@ The `/parser/` api-endpoint also supports returning the parsed tmconf as JSONL o
   ["ltm profile imap","imap",{"activation-mode":"require"}],
   ["ltm profile pop3","pop3",{"activation-mode":"require"}]
 ]
+```
+
+Sorting the output is also supported since version 1.1.0. This is helpful when comparing data. tmconfpy uses python `sorted()` and will sort all data within the tmconf (all dicts, and lists).
+
+```shell
+cat <<EOF | tmconfpy --sort | jq 
+ltm profile profile-type zProfile { }
+ltm profile profile-type MyProfile {
+    b {
+        Z { 3 2 A 1 0 }
+        a 1
+        A 2
+    }
+    aaa 0
+    AA { a c b }
+}
+EOF
+```
+
+```json
+{
+  "ltm profile profile-type MyProfile": {
+    "AA": [ "a", "b", "c" ],
+    "aaa": "0",
+    "b": {
+      "A": "2",
+      "Z": [ "0", "1", "2", "3", "A" ],
+      "a": "1"
+    }
+  },
+  "ltm profile profile-type zProfile": {}
+}
 ```
 
 #### Using the container as a command line tool

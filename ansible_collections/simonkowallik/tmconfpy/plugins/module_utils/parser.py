@@ -28,7 +28,7 @@ tabularTmconf = namedtuple("tabularTmconf", ["path", "name", "object"])
 class Parser:
     """Parse tmconf data or file and serialize it to a python dict or JSON (str)."""
 
-    def __init__(self, tmconf: str, is_filepath: bool = False):
+    def __init__(self, tmconf: str, is_filepath: bool = False, sort: bool = False):
         '''
         Parse tmconf data or file and serialize it to a python dict and JSON.
 
@@ -62,10 +62,19 @@ class Parser:
         self._tmconf_text = self._read_tmconf_file(tmconf) if is_filepath else tmconf
 
         self._tmconf_dict = self._parse_tmconf_content()
+        if sort:
+            self._tmconf_dict = self._sort_dict(self._tmconf_dict)
         self._tmconf_json = ""
         self._tmconf_jsonl = ""
         self._tmconf_tabular: list[tabularTmconf] = []
+        self._tmconf_tabular_kv: list[dict] = []
         self._tmconf_tabular_json = ""
+        self._tmconf_tabular_json_kv = ""
+
+    @property
+    def text(self) -> str:
+        """Plain tmconf read from file or provided as input."""
+        return self._tmconf_text
 
     @property
     def dict(self) -> dict:
@@ -100,6 +109,13 @@ class Parser:
         return self._tmconf_tabular_json
 
     @property
+    def tabular_json_kv(self) -> str:
+        """Parsed tmconf as JSON array of dictionaries, each with three fields, path (str), name (str) object (object)."""
+        if not self._tmconf_tabular_json_kv:
+            self._tmconf_tabular_json_kv = json.dumps(self.tabular_kv)
+        return self._tmconf_tabular_json_kv
+
+    @property
     def tabular(self) -> list[tabularTmconf]:
         """Parsed tmconf as list of tuples, each with three fields, path (str), name (str) object (dict)."""
         if not self._tmconf_tabular:
@@ -110,6 +126,24 @@ class Parser:
                 for item in self.dict.items()
             ]
         return self._tmconf_tabular
+
+    @property
+    def tabular_kv(self) -> list[dict]:
+        """Parsed tmconf as list of dictionaries, each with three fields, path (str), name (str) object (dict)."""
+        if not self._tmconf_tabular_kv:
+            self._tmconf_tabular_kv = [
+                entry_namedtuple._asdict() for entry_namedtuple in self.tabular
+            ]
+        return self._tmconf_tabular_kv
+
+    def _sort_dict(self, d) -> dict:
+        """Sort dictionaries and lists recursively."""
+        for k, v in d.items():
+            if isinstance(v, dict):
+                d[k] = self._sort_dict(v)
+            elif isinstance(v, list):
+                d[k] = sorted(v)
+        return dict(sorted(d.items()))
 
     def _group_objects(self, arr) -> list:
         """Group tmconf objects into a list."""

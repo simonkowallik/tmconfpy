@@ -1,6 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+# Copyright: Simon Kowallik
+# License: Apache License 2.0
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type

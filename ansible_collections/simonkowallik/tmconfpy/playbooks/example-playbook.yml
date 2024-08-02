@@ -26,42 +26,35 @@
   tasks:
     - name: "Requirements Note"
       ansible.builtin.debug:
-        msg: |
+        msg: |+
           # This playbook requires the following:
           # requirements.yml
           collections:
           # https://galaxy.ansible.com/ui/repo/published/f5networks/f5_bigip/
           - name: f5networks.f5_bigip
             type: galaxy
-            version: ">=3.0.0"
+            version: >=3.0.0
           # https://galaxy.ansible.com/ui/repo/published/simonkowallik/tmconfpy/
           - name: simonkowallik/tmconfpy
             type: galaxy
-            version: ">=1.0.0"
+            version: >=1.1.0
 
-    - name: "Fetch {{ bigip_configfile }} in tabular format"
-      simonkowallik.tmconfpy.tmconf_get:
-        configfile: "{{ bigip_configfile }}"
-        format: tabular
-      register: tabular_config
-
-    # tabular format has 3 columns, object_path, object_name and the object itself.
-    # each entry in the tmconf file is a row.
-    - name: "Print {{ bigip_configfile }} in tabular format"
-      ansible.builtin.debug:
-        var: tabular_config.tmconf_tabular
-
-    # object format uses keys that represent the object_path and object_name. The value is the object itself.
-    - name: "Fetch {{ bigip_configfile }} in object format (default)"
+    - name: "Fetch {{ bigip_configfile }}"
       simonkowallik.tmconfpy.tmconf_get:
         configfile: "{{ bigip_configfile }}"
       register: config
 
-    - name: "Print {{ bigip_configfile }} in object format (default)"
+    - name: "Print root user if it exists in config.tmconf"
       ansible.builtin.debug:
-        var: config.tmconf
+        var: config.tmconf["auth user root"]
+      when: '"auth user root" in config.tmconf'
 
-    - name: "Save tmconf to JSON file"
+    - name: "Save config.tmconf to JSON file"
       ansible.builtin.copy:
         content: "{{ config.tmconf | to_nice_json }}"
-        dest: "./{{ bigip_configfile }}"
+        dest: ./bigip_user.json
+
+    - name: "Save config.tmconf to YAML file"
+      ansible.builtin.copy:
+        content: "{{ config.tmconf | to_nice_yaml }}"
+        dest: ./bigip_user.yaml
