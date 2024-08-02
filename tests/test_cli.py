@@ -87,6 +87,29 @@ class TestCLI:
         ]
 
     @staticmethod
+    def test_format_tabular_kv(monkeypatch, capfd):
+        """Test CLI with tabular_kv format."""
+        monkeypatch.setattr(
+            sys,
+            "argv",
+            [
+                __projectname__,
+                "./example/imap.tmconf",
+                "--format",
+                "tabular_kv",
+            ],
+        )
+        cli()
+        cli_output, _ = capfd.readouterr()
+        assert json.loads(cli_output.rstrip()) == [
+            {
+                "path": "ltm profile imap",
+                "name": "imap",
+                "object": {"activation-mode": "require"},
+            }
+        ]
+
+    @staticmethod
     def test_format_jsonl(monkeypatch, capfd):
         """Test CLI with jsonl format."""
         monkeypatch.setattr(

@@ -32,8 +32,14 @@ def _cli_arg_parser():
         "--format",
         type=str,
         help="Output format. Defaults to object.",
-        choices=["object", "tabular", "jsonl"],
+        choices=["object", "tabular", "tabular_kv", "jsonl"],
         default="object",
+        required=False,
+    )
+    parser.add_argument(
+        "--sort",
+        action="store_true",
+        help="Sort the output.",
         required=False,
     )
     parser.add_argument(
@@ -60,10 +66,12 @@ def cli():
         )
         sys.exit(1)
 
-    parsed = Parser(tmconf_content)
+    parsed = Parser(tmconf_content, sort=args.sort)
 
     if args.format == "tabular":
         args.output.write(parsed.tabular_json)
+    elif args.format == "tabular_kv":
+        args.output.write(parsed.tabular_json_kv)
     elif args.format == "jsonl":
         args.output.write(parsed.jsonl)
     else:

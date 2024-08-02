@@ -10,6 +10,12 @@ nav_order: 3
 
 tmconfpy as well as the tmconfpy ansible collection aim to make BIG-IP configurations more accessible by serializing the tmconf format to python data structures.
 
+This can be used to replace facts gathering in ansible, for ansible implementation specific purposes like checking for dependencies, or to query specific configuration information.
+
+It also can help to audit configurations by comparing the "on-device" configuration with stored references.
+
+***NOTE:*** As the module copies configuration files from F5 BIG-IP devices, those configurations might contain sensitive data. Make sure YOU, as the implementor, *ensure* data security!
+
 For more details about the relevant configuration files, data formats, tmconfpy and its ansible collection please have a look in the [documentation](https://simonkowallik.github.io/tmconfpy/).
 
 ## Installation
@@ -28,7 +34,7 @@ In your `requirements.yml` file you can use both ways as well:
 ---
 - name: simonkowallik/tmconfpy
   type: galaxy
-  version: 1.0.0
+  version: 1.1.0
 
 #- source: https://github.com/simonkowallik/tmconfpy.git#ansible_collections/simonkowallik/tmconfpy
 #  type: git
@@ -77,7 +83,7 @@ In your `requirements.yml` file you can use both ways as well:
           # https://galaxy.ansible.com/ui/repo/published/simonkowallik/tmconfpy/
           - name: simonkowallik/tmconfpy
             type: galaxy
-            version: ">=1.0.0"
+            version: ">=1.1.0"
 
     - name: "Fetch {{ bigip_configfile }} in tabular format"
       simonkowallik.tmconfpy.tmconf_get:
