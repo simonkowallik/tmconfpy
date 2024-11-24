@@ -24,25 +24,9 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .ruff_cache
 	find . -name '.mypy_cache' -exec rm -fr {} +
 
-lint:
-	pylint tmconfpy/*.py
-	pylint tests/*.py
-	ruff check tmconfpy/*.py
-	ruff check tests/*.py
-
-black:
-	black tmconfpy/*.py
-	black tests/*.py
-
-ruff:
-	ruff format tmconfpy/*.py
-	ruff format tests/*.py
-
-isort:
-	isort tmconfpy/*.py
-	isort tests/*.py
-
-code-format: isort black ruff # more is MORE!
+code-format:
+	ruff check --select I --fix --exclude .venv
+	ruff format --exclude .venv
 
 test:
 	pytest --cov=tmconfpy tests/
@@ -58,6 +42,7 @@ ansible:
 	cp -f LICENSE ansible_collections/simonkowallik/tmconfpy/LICENSE
 	mkdir -p ./build
 	ansible-galaxy collection build ansible_collections/simonkowallik/tmconfpy --output-path build/
+	echo 'ansible-galaxy collection publish build/simonkowallik-tmconfpy-*.tar.gz --api-key $ANSIBLE_GALAXY_API_KEY'
 
 container:
 	docker build -t tmconfpy .
