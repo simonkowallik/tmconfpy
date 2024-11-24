@@ -23,7 +23,9 @@ Open Policy Agent (OPA) is an open-source, general-purpose policy engine that en
 Install conftest:
 
 ```shell
-curl -sLo - https://github.com/open-policy-agent/conftest/releases/download/v0.56.0/conftest_0.56.0_Linux_x86_64.tar.gz | tar xzp conftest
+curl -sLo - \
+    https://github.com/open-policy-agent/conftest/releases/download/v0.56.0/conftest_0.56.0_Linux_x86_64.tar.gz \
+    | tar xzp conftest
 
 ```
 
@@ -50,7 +52,7 @@ Have a look at [conftest_policy_as_code.rego](https://github.com/simonkowallik/t
 
 Pytest, a popular Python testing framework, can be leveraged for implementing policy-as-code by writing test functions that reflect policies as code and test configuration data against them.
 
-Checkout the example in [test_audit_compliance.py](https://github.com/simonkowallik/tmconfpy/blob/main/example/test_audit_compliance.py), see below for example output based on `bigip.conf`.
+Checkout the example in [pytest_policy_as_code.py](https://github.com/simonkowallik/tmconfpy/blob/main/example/pytest_policy_as_code.py), see below for example output based on `bigip.conf`.
 
 ```shell
 pytest pytest_policy_as_code.py --tb=line -v
