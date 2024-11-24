@@ -39,6 +39,9 @@ Run conftest specifying the rego policy:
 
 ```shell
 ./conftest test -p conftest_policy_as_code.rego bigip.conf.json 
+```
+
+```shell
 FAIL - bigip.conf.json - main - Service /Common/vs_noncompliant_example.net with /Common/198.19.0.141:443 destination missing mandatory profile /Common/websecurity
 FAIL - bigip.conf.json - main - Service /Common/vs_noncompliant_example.net-redirect80 with /Common/198.19.0.141:80 destination MUST NOT have pool attached
 FAIL - bigip.conf.json - main - Service /Common/vs_noncompliant_example.net-redirect80 with /Common/198.19.0.141:80 destination missing mandatory rule /Common/redirect_to_https
@@ -56,6 +59,9 @@ Checkout the example in [pytest_policy_as_code.py](https://github.com/simonkowal
 
 ```shell
 pytest pytest_policy_as_code.py --tb=line -v
+```
+
+```shell
 ===================================================================================================================================== test session starts ======================================================================================================================================
 platform linux -- Python 3.10.12, pytest-8.3.3, pluggy-1.5.0 -- tmconfpy/.venv/bin/python
 cachedir: .pytest_cache
