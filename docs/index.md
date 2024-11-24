@@ -32,7 +32,7 @@ This project aims to be a minimalistic dependency free tool. It is based on [tmc
 
 The TMOS configuration parser [f5-corkscrew](https://github.com/f5devcentral/f5-corkscrew) is a more sophisticated alternative with advanced functionality and active development.
 
-Also checkout the jupyter notebook: [example/notebook.ipynb](https://github.com/simonkowallik/tmconfpy/blob/main/example/notebook.ipynb).
+Have a look at the [example directory](https://github.com/simonkowallik/tmconfpy/blob/main/example/), for interactive use of `tmconfpy` with jupyter notebooks :notebook: or for implementing policy-as-code / audit configuration for compliance :cop:
 
 More details about the relevant [BIG-IP configuration files and data formats](./data-formats.html).
 

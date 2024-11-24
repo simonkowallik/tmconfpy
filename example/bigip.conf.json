@@ -1,0 +1,97 @@
+[
+  {
+    "path": "ltm virtual",
+    "name": "/Common/vs_compliant_example.com",
+    "object": {
+      "destination": "/Common/198.19.0.41:443",
+      "ip-protocol": "tcp",
+      "mask": "255.255.255.255",
+      "policies": { "/Common/asm_auto_l7_policy__vs_example.com": {} },
+      "pool": "/Common/pool_example.com",
+      "profiles": {
+        "/Common/ASM_example.com_policy": {},
+        "/Common/clientssl-example.com-tls13": { "context": "clientside" },
+        "/Common/f5-tcp-progressive": {},
+        "/Common/http-custom": {},
+        "/Common/serverssl-secure": { "context": "serverside" },
+        "/Common/websecurity": {}
+      },
+      "rules": {
+        "/Common/host_example.com": "",
+        "/Common/mandatory_iRule": ""
+      },
+      "security-log-profiles": { "\"/Common/Log all requests\"": "" },
+      "source": "0.0.0.0/0",
+      "source-address-translation": { "type": "automap" }
+    }
+  },
+  {
+    "path": "ltm virtual",
+    "name": "/Common/vs_compliant_example.com-redirect80",
+    "object": {
+      "destination": "/Common/198.19.0.41:80",
+      "ip-protocol": "tcp",
+      "mask": "255.255.255.255",
+      "profiles": {
+        "/Common/f5-tcp-progressive": {},
+        "/Common/http-custom": {}
+      },
+      "rules": { "/Common/redirect_to_https": "" },
+      "source": "0.0.0.0/0"
+    }
+  },
+  {
+    "path": "ltm virtual",
+    "name": "/Common/vs_noncompliant_example.net",
+    "object": {
+      "destination": "/Common/198.19.0.141:443",
+      "ip-protocol": "tcp",
+      "mask": "255.255.255.255",
+      "pool": "/Common/pool_example.net",
+      "profiles": {
+        "/Common/clientssl-example.net-tls13": { "context": "clientside" },
+        "/Common/f5-tcp-progressive": {},
+        "/Common/http-custom": {},
+        "/Common/serverssl-secure": { "context": "serverside" }
+      },
+      "rules": { "/Common/host_example.net": "" },
+      "source": "0.0.0.0/0",
+      "source-address-translation": { "type": "automap" }
+    }
+  },
+  {
+    "path": "ltm virtual",
+    "name": "/Common/vs_noncompliant_example.net-redirect80",
+    "object": {
+      "destination": "/Common/198.19.0.141:80",
+      "ip-protocol": "tcp",
+      "mask": "255.255.255.255",
+      "pool": "/Common/pool_example.net",
+      "profiles": {
+        "/Common/f5-tcp-progressive": {},
+        "/Common/http-custom": {}
+      },
+      "source": "0.0.0.0/0",
+      "source-address-translation": { "type": "automap" }
+    }
+  },
+  {
+    "path": "ltm profile client-ssl",
+    "name": "/Common/clientssl-example.com-tls13",
+    "object": {
+      "cert": "/Common/example.crt",
+      "cert-key-chain": {
+        "default": {
+          "cert": "/Common/example.crt",
+          "key": "/Common/example.key",
+          "chain": "/Common/example_chain.crt"
+        }
+      },
+      "chain": "/Common/example_chain.crt",
+      "defaults-from": "/Common/clientssl-secure-tls13",
+      "inherit-ca-certkeychain": "false",
+      "inherit-certkeychain": "false",
+      "key": "/Common/example.key"
+    }
+  }
+]

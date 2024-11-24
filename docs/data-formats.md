@@ -4,6 +4,8 @@ title: Data formats
 nav_enabled: true
 nav_order: 2
 ---
+{% raw %}
+
 # tmconfpy data formats
 
 ## Relevant configuration files
@@ -138,3 +140,5 @@ Like the tabular format the tabular key value format (tabular_kv) formats the co
   }
 ]
 ```
+
+{% endraw %}

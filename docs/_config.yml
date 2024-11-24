@@ -1,6 +1,6 @@
 title: tmconfpy
 description: serialize F5 config (bigip.conf) to JSON or python dict
-remote_theme: just-the-docs/just-the-docs@v0.8.2
+remote_theme: just-the-docs/just-the-docs@v0.10.0
 
 url: https://simonkowallik.github.io/tmconfpy/
 

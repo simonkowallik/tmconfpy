@@ -26,13 +26,17 @@ This project aims to be a minimalistic dependency free tool. It is based on [tmc
 
 The TMOS configuration parser [f5-corkscrew](https://github.com/f5devcentral/f5-corkscrew) is a more sophisticated alternative with advanced functionality and active development.
 
-Also checkout the jupyter notebook: [example/notebook.ipynb](https://github.com/simonkowallik/tmconfpy/blob/main/example/notebook.ipynb).
+Have a look at the [example directory](./example/), for interactive use of `tmconfpy` with jupyter notebooks :notebook: or for implementing policy-as-code / audit configuration for compliance :cop:.
 
 For more details about the relevant configuration files, [data formats](https://simonkowallik.github.io/tmconfpy/data-formats.html), tmconfpy and its ansible collection please have a look at the [documentation](https://simonkowallik.github.io/tmconfpy/).
 
 ## Using tmconfpy with ansible
 
 tmconfpy is available as an ansible module, please see [ansible_collections/simonkowallik/tmconfpy/README.md](https://github.com/simonkowallik/tmconfpy/tree/main/ansible_collections/simonkowallik/tmconfpy) or the [Ansible documentation](https://simonkowallik.github.io/tmconfpy/ansible.html).
+
+## Using tmconfpy for policy-as-code / configuration auditing
+
+Having a structured and well supported configuration data is an important step towards auditing configuration and implementing policy-as-code. Have a look at [the documentation](https://simonkowallik.github.io/tmconfpy/config-audit.html) for examples on auditing BIG-IP configuration.
 
 ## Documentation by example
 
@@ -333,12 +337,8 @@ cat example/imap.tmconf | docker run --rm --interactive --entrypoint tmconfpy si
 
 Please read and understand the [LICENSE](https://github.com/simonkowallik/tmconfpy/blob/main/LICENSE) first.
 
-```text
-There is no support on this project.
-
-It is maintained on best effort basis without any warranties.
-
-For any software or components used in this project, read their own LICENSE and SUPPORT policies.
-
-If you decide to use this project, you are solely responsible.
-```
+> [!NOTE]
+> There is no support on this project.
+> It is maintained on best effort basis without any warranties.
+> For any software or components used in this project, read their own LICENSE and SUPPORT policies.
+> If you decide to use this project, you are solely responsible.

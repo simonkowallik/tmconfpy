@@ -4,6 +4,9 @@ title: Ansible
 nav_enabled: true
 nav_order: 3
 ---
+
+{% raw %}
+
 # tmconfpy - Ansible collection
 
 ## Purpose
@@ -14,7 +17,8 @@ This can be used to replace facts gathering in ansible, for ansible implementati
 
 It also can help to audit configurations by comparing the "on-device" configuration with stored references.
 
-***NOTE:*** As the module copies configuration files from F5 BIG-IP devices, those configurations might contain sensitive data. Make sure YOU, as the implementor, *ensure* data security!
+{: .note }
+> As the module copies configuration files from F5 BIG-IP devices, those configurations might contain sensitive data. Make sure YOU, as the implementor, *ensure* data security!
 
 For more details about the relevant configuration files, data formats, tmconfpy and its ansible collection please have a look in the [documentation](https://simonkowallik.github.io/tmconfpy/).
 
@@ -57,6 +61,7 @@ In your `requirements.yml` file you can use both ways as well:
       user: admin
       password: admin  # use vault!
       validate_certs: yes
+
     # map provider variables to collection v2 variables
     ansible_host: "{{ provider.server }}"
     ansible_user: "{{ provider.user }}"
@@ -66,6 +71,7 @@ In your `requirements.yml` file you can use both ways as well:
     ansible_httpapi_use_ssl: yes
     ansible_httpapi_validate_certs: "{{ provider.validate_certs }}"
     # the above is typically defined in a group_vars and host_vars and ansible-vault
+
     # path to the configuration file on the BIG-IP
     bigip_configfile: /config/bigip_user.conf
 
@@ -113,3 +119,5 @@ In your `requirements.yml` file you can use both ways as well:
         dest: "./{{ bigip_configfile }}"
 
 ```
+
+{% endraw %}
