@@ -120,14 +120,17 @@ tmconf_tabular_kv:
 from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import ConnectionError
+
+# from tmconfpy.parser import Parser
+# vendored:
+from ansible_collections.simonkowallik.tmconfpy.plugins.module_utils.parser import (
+    Parser,
+)
 from ansible_collections.simonkowallik.tmconfpy.plugins.module_utils.tmos_api import (
     APIClient,
     APIResultProcessor,
 )
 
-#from tmconfpy.parser import Parser
-# vendored:
-from ansible_collections.simonkowallik.tmconfpy.plugins.module_utils.parser import Parser
 
 def main():
     """entry point for module execution"""

@@ -96,12 +96,13 @@ deepdiff:
 
 from ansible.module_utils.basic import AnsibleModule
 
-#from deepdiff import DeepDiff
 try:
     from deepdiff import DeepDiff
+
     HAS_DEEPDIFF = True
 except ImportError:
     HAS_DEEPDIFF = False
+
 
 def main():
     """entry point for module execution"""
@@ -109,24 +110,35 @@ def main():
         config=dict(required=True, type="raw"),
         reference=dict(required=True, type="raw"),
         deepdiff_args=dict(required=False, type="list", default=[]),
-        deepdiff_kwargs=dict(required=False, type="dict", default={})
+        deepdiff_kwargs=dict(required=False, type="dict", default={}),
     )
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
     result = {}
     ddiff = {}
 
     if HAS_DEEPDIFF:
-        ddiff = DeepDiff(module.params['reference'], module.params["config"], *module.params["deepdiff_args"], **module.params["deepdiff_kwargs"]).to_dict()
+        ddiff = DeepDiff(
+            module.params["reference"],
+            module.params["config"],
+            *module.params["deepdiff_args"],
+            **module.params["deepdiff_kwargs"],
+        ).to_dict()
     else:
-        module.fail_json(msg="DeepDiff not installed on ansible controller. Please install it using 'pip install deepdiff'")
+        module.fail_json(
+            msg="DeepDiff not installed on ansible controller. Please install it using 'pip install deepdiff'"
+        )
 
-    if module._diff: # ansible --diff mode
-        result.update({"diff": {"after": module.params["config"], "before": module.params['reference']}})
+    if module._diff:  # ansible --diff mode
+        result.update(
+            {
+                "diff": {
+                    "after": module.params["config"],
+                    "before": module.params["reference"],
+                }
+            }
+        )
 
-    result.update({
-        "changed": True if ddiff else False,
-        "deepdiff": ddiff
-        })
+    result.update({"changed": True if ddiff else False, "deepdiff": ddiff})
 
     module.exit_json(**result)
 

@@ -10,8 +10,8 @@ __metaclass__ = type
 
 import base64
 import gzip
-import io
 import hashlib
+import io
 
 from ansible.module_utils._text import to_text
 from ansible.module_utils.connection import Connection
