@@ -6,8 +6,11 @@ on:
     branches:
       - main
   pull_request:
-  schedule:
-    - cron: '5 5 */14 * *'
+  repository_dispatch:
+    types: [start-scheduled-ci-pipeline]
+# disable schedule to prevent GH to disable this workflow
+#  schedule:
+#    - cron: '5 5 */14 * *'
 
 jobs:
   tests:

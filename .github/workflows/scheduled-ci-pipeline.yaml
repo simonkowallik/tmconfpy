@@ -1,0 +1,13 @@
+name: Scheduled CI Pipeline  
+  
+on:
+  schedule:
+    - cron: '5 5 */14 * *'
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger another workflow
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          event-type: start-scheduled-ci-pipeline
