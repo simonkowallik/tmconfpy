@@ -9,7 +9,9 @@ Have a look at the jupyter notebook [notebook.ipynb](./notebook.ipynb) for examp
 Install conftest:
 
 ```shell
-curl -sLo - https://github.com/open-policy-agent/conftest/releases/download/v0.56.0/conftest_0.56.0_Linux_x86_64.tar.gz | tar xzp conftest
+curl -sLo - \
+    https://github.com/open-policy-agent/conftest/releases/download/v0.56.0/conftest_0.56.0_Linux_x86_64.tar.gz \
+    | tar xzp conftest
 
 ```
 
@@ -34,7 +36,7 @@ FAIL - bigip.conf.json - main - Service /Common/vs_noncompliant_example.net-redi
 
 To use tmconfpy with pytest for configuration compliance auditing, you can write test cases that parse configuration files using tmconfpy and assert that the parsed configurations meet your compliance requirements. By integrating tmconfpy with pytest, you can automate the validation of configuration files and ensure they adhere to predefined standards.
 
-Checkout the example in [test_audit_compliance.py](./test_audit_compliance.py), see below for example output based on [bigip.conf](./bigip.conf).
+Checkout the example in [pytest_policy_as_code.py](./pytest_policy_as_code.py), see below for example output based on [bigip.conf](./bigip.conf).
 
 ```shell
 pytest pytest_policy_as_code.py --tb=line -v
