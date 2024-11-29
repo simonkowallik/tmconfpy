@@ -1,8 +1,11 @@
 name: Scheduled CI Pipeline  
   
 on:
+  workflow_dispatch:
   schedule:
     - cron: '5 5 */14 * *'
+permissions:
+  contents: write
 jobs:
   trigger:
     runs-on: ubuntu-latest
