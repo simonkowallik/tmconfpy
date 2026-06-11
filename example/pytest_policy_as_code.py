@@ -4,13 +4,13 @@
 Example: Using pytest to implement policy-as-code / audit configuration is compliant with standards.
 """
 
-
 import pytest
 
 from tmconfpy import Parser
 
 # bigip.conf file in the local directory
 bigip_conf = Parser("bigip.conf", is_filepath=True)
+
 
 class Test_audit_virtuals:
     """
@@ -33,7 +33,7 @@ class Test_audit_virtuals:
     def test_for_mandatory_profiles(self, destination, profile, match):
         """
         Test that virtual servers have mandatory profiles attached
-        
+
         Goals:
         - Ensure all virtual servers offering :443 have a WAF policy attached (checking for /Common/websecurity)
         - Ensure all virtual servers offering :443 have a clientssl profile attached (checking for /Common/clientssl*)
@@ -42,13 +42,15 @@ class Test_audit_virtuals:
         for service in self.CONFIG_DATA:
             if destination in service["object"]["destination"]:
                 if match == "exact":
-                    assert (
-                        profile in service["object"]["profiles"]
-                    ), f"Service {service['name']} with {destination} destination missing {profile} profile"
+                    assert profile in service["object"]["profiles"], (
+                        f"Service {service['name']} with {destination} destination missing {profile} profile"
+                    )
                 elif match == "startswith":
                     assert any(
                         key.startswith(profile) for key in service["object"]["profiles"]
-                    ), f"Service {service['name']} with {destination} destination missing {profile} profile"
+                    ), (
+                        f"Service {service['name']} with {destination} destination missing {profile} profile"
+                    )
 
     @pytest.mark.parametrize(
         "destination, attribute",
@@ -60,9 +62,9 @@ class Test_audit_virtuals:
         """
         for service in self.CONFIG_DATA:
             if destination in service["object"]["destination"]:
-                assert (
-                    service["object"].get(attribute) is None
-                ), f"Service {service['name']} with {destination} destination should not have attribute {attribute}"
+                assert service["object"].get(attribute) is None, (
+                    f"Service {service['name']} with {destination} destination should not have attribute {attribute}"
+                )
 
     @pytest.mark.parametrize(
         "destination, rule",
@@ -74,10 +76,11 @@ class Test_audit_virtuals:
         """
         for service in self.CONFIG_DATA:
             if destination in service["object"]["destination"]:
-                assert (
-                    "rules" in service["object"]
-                    and service["object"]["rules"] == {rule: ""}
-                ), f"Service {service['name']} with {destination} destination missing {rule} rule"
+                assert "rules" in service["object"] and service["object"]["rules"] == {
+                    rule: ""
+                }, (
+                    f"Service {service['name']} with {destination} destination missing {rule} rule"
+                )
 
     def test_allowed_virtual_server_ports(self, allowed_ports=["80", "443"]):
         """
@@ -85,9 +88,10 @@ class Test_audit_virtuals:
         """
         for service in self.CONFIG_DATA:
             service_port = service["object"]["destination"].split("%")[0].split(":")[1]
-            assert (
-                service_port in allowed_ports
-            ), f"Service {service['name']} listening on non-allowed port: {service_port}"
+            assert service_port in allowed_ports, (
+                f"Service {service['name']} listening on non-allowed port: {service_port}"
+            )
+
 
 class Test_audit_clientssl:
     """
@@ -96,7 +100,9 @@ class Test_audit_clientssl:
 
     # extract all clientssl profile configurations
     CONFIG_DATA = [
-        conf for conf in bigip_conf.tabular_kv if conf.get("path") == "ltm profile client-ssl"
+        conf
+        for conf in bigip_conf.tabular_kv
+        if conf.get("path") == "ltm profile client-ssl"
     ]
 
     def test_chain_is_set(self):
@@ -104,9 +110,13 @@ class Test_audit_clientssl:
         Test that clientssl profiles have a CA chain set.
         """
         for service in self.CONFIG_DATA:
-            assert service["object"].get("chain"), f"Service {service['name']} missing CA chain"
+            assert service["object"].get("chain"), (
+                f"Service {service['name']} missing CA chain"
+            )
             for ckc in service["object"].get("cert-key-chain", {}).values():
-                assert ckc.get("chain"), f"Service {service['name']} missing CA chain in cert-key-chain"
+                assert ckc.get("chain"), (
+                    f"Service {service['name']} missing CA chain in cert-key-chain"
+                )
 
     def test_defaults_from_secure(self):
         """
@@ -114,6 +124,6 @@ class Test_audit_clientssl:
         """
         for service in self.CONFIG_DATA:
             parent = service["object"].get("defaults-from")
-            assert (
-                parent.startswith("/Common/clientssl-secure")
-            ), f"Service {service['name']} should inherit from /Common/clientssl-secure* not {parent}"
+            assert parent.startswith("/Common/clientssl-secure"), (
+                f"Service {service['name']} should inherit from /Common/clientssl-secure* not {parent}"
+            )

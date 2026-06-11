@@ -41,14 +41,14 @@ gtm global-settings load-balancing {
                 "records": {
                     "longest-match-enabled": "no",
                     "topology_0": {
-                        "destination": "country " "AQ",
+                        "destination": "country AQ",
                         "order": "1",
-                        "source": "subnet " "192.0.0.0/16",
+                        "source": "subnet 192.0.0.0/16",
                     },
                     "topology_1": {
-                        "destination": "country " "AQ",
+                        "destination": "country AQ",
                         "order": "2",
-                        "source": "continent " "EU",
+                        "source": "continent EU",
                     },
                 }
             },

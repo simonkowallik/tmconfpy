@@ -230,7 +230,7 @@ class Parser:
                         c += 1
                         if (i + c) >= len(arr):
                             raise ValueError(
-                                f"Missing or mis-indented '}}' for line number {i+1}: '{arr[i]}'"
+                                f"Missing or mis-indented '}}' for line number {i + 1}: '{arr[i]}'"
                             )
                     sub_obj_arr = self._remove_indent(arr[i : i + c + 1])
 
