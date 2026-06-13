@@ -28,6 +28,10 @@ code-format:
 	ruff check --select I --fix --exclude .venv
 	ruff format --exclude .venv
 
+setup-devcontainer:
+	poetry sync --all-extras
+	eval $(poetry env activate)
+
 test:
 	pytest --cov=tmconfpy tests/
 	coverage html

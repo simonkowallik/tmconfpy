@@ -167,7 +167,6 @@ class Parser:
                     line = arr[i + c]
                     subcount = 0
 
-                    previous_char = ""
                     if not (
                         (
                             line.strip().startswith("#")
@@ -179,14 +178,23 @@ class Parser:
                         updated_line = (
                             line.strip().replace('\\"', "").replace(r'".+"', "")
                         )
-                        for char in updated_line:
-                            if char == '"' and previous_char != "\\":
+                        for idx, char in enumerate(updated_line):
+                            if char == '"' and not self._is_char_escaped(
+                                updated_line, idx
+                            ):
                                 quoted = not quoted
-                            if not quoted and char == "{" and previous_char != "\\":
+                            if (
+                                not quoted
+                                and char == "{"
+                                and not self._is_char_escaped(updated_line, idx)
+                            ):
                                 subcount += 1
-                            if not quoted and char == "}" and previous_char != "\\":
+                            if (
+                                not quoted
+                                and char == "}"
+                                and not self._is_char_escaped(updated_line, idx)
+                            ):
                                 subcount -= 1
-                            previous_char = char
                         if self._is_irule(line):
                             c -= 1
                             bracket_count = 0
@@ -212,6 +220,8 @@ class Parser:
         # case: iRules (multiline string)
         if self._is_irule(key):
             obj = "\n".join(arr)
+            # Unescape backslashes: convert \\ to \
+            obj = obj.replace("\\\\", "\\")
 
         # case: monitor min X of {...}
         elif "monitor min" in key:
@@ -407,6 +417,33 @@ class Parser:
     def _count_indent(string: str) -> Optional[int]:
         """Count the number of whitespaces at the beginning of a string."""
         return re.search(r"\S", string).start() if re.search(r"\S", string) else None
+
+    @staticmethod
+    def _is_char_escaped(text: str, position: int) -> bool:
+        """
+        Check if a character at the given position is truly escaped.
+        A character is escaped if it is preceded by an odd number of backslashes.
+        An even number (including zero) of backslashes means the character is not escaped.
+
+        Args:
+            text: The text containing the character.
+            position: The index of the character to check.
+
+        Returns:
+            True if the character is escaped, False otherwise.
+        """
+        if position == 0:
+            return False
+
+        # Count consecutive backslashes before the character
+        backslash_count = 0
+        i = position - 1
+        while i >= 0 and text[i] == "\\":
+            backslash_count += 1
+            i -= 1
+
+        # If odd number of backslashes, the character is escaped
+        return backslash_count % 2 == 1
 
     def _remove_indent(self, arr) -> list:
         """Remove indent (4 whitespaces) from each line in a list of strings if the line is indented."""
